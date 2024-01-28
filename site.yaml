@@ -1,0 +1,6 @@
+---
+- name: Site
+  hosts: all
+  become: true
+  roles:
+    - server
