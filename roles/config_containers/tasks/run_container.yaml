@@ -11,10 +11,10 @@
   ansible.builtin.template:
     src: "templates/{{ item }}.j2"
     dest: "/opt/services/{{ item }}/compose.yaml"
+    mode: '0755'
     owner: root
     group: root
-    mode: '0755'
 
 - name: Run docker container
   ansible.builtin.command:
-    cmd: "docker compose -f /opt/services/{{ item }}/compose.yaml up  -d"
+    cmd: "docker compose -f /opt/services/{{ item }}/compose.yaml up -d"
