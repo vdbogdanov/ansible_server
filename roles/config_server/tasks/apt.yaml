@@ -14,6 +14,6 @@
       - nmap
     state: present
 
-# - name: Reboot server
-#   ansible.builtin.reboot:
-#     reboot_timeout: 3600
+- name: Reboot server
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
