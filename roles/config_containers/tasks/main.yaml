@@ -1,0 +1,7 @@
+---
+- name: Include run_container.yaml tasks
+  ansible.builtin.include_tasks: run_container.yaml
+  loop:
+    - proxy_manager
+    - wireguard
+    - confluence

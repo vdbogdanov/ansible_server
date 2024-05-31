@@ -1,0 +1,53 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: true
+  notify: Reboot server
+
+- name: Install packages
+  ansible.builtin.dnf:
+    name: nmap
+    state: present
+
+- name: Setup sshd service
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^{{ item }}"
+    line: "{{ item }} no"
+  loop:
+    - 'PasswordAuthentication'
+    - 'ChallengeResponseAuthentication'
+
+- name: Restart sshd service
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+    enabled: true
+
+- name: Start firewalld service
+  ansible.builtin.systemd_service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: Setup firewalld service
+  ansible.builtin.shell:
+    cmd: |
+      firewall-cmd --zone=public --add-service=ssh --permanent
+      firewall-cmd --zone=public --add-port=80/tcp --permanent
+      firewall-cmd --zone=public --add-port=443/tcp --permanent
+      firewall-cmd --zone=public --add-port=51820/udp --permanent
+      firewall-cmd --zone=public --add-masquerade --permanent
+      firewall-cmd --reload
+
+- name: Setup docker service
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://get.docker.com | sh
+
+- name: Start docker service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
