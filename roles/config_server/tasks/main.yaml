@@ -1,61 +1,12 @@
 ---
-- name: Upgrade all packages
-  ansible.builtin.dnf:
-    name: "*"
-    state: latest
-    update_cache: true
+- name: Update & upgrade packages
+  ansible.builtin.import_tasks: apt.yaml
 
-- name: Reboot server
-  ansible.builtin.reboot:
-    reboot_timeout: 3600
+- name: SSH Setup
+  ansible.builtin.import_tasks: ssh.yaml
 
-- name: Setup sshd service
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^{{ item }}"
-    line: "{{ item }} no"
-  loop:
-    - 'PasswordAuthentication'
-    - 'ChallengeResponseAuthentication'
+- name: UFW Setup
+  ansible.builtin.import_tasks: ufw.yaml
 
-- name: Restart sshd service
-  ansible.builtin.service:
-    name: sshd
-    state: restarted
-    enabled: true
-
-- name: Start firewalld service
-  ansible.builtin.systemd_service:
-    name: firewalld
-    state: started
-    enabled: true
-
-- name: Setup firewalld service
-  ansible.builtin.shell:
-    cmd: |
-      firewall-cmd --zone=public --add-service=ssh --permanent
-      firewall-cmd --zone=public --add-port=80/tcp --permanent
-      firewall-cmd --zone=public --add-port=443/tcp --permanent
-      firewall-cmd --zone=public --add-port=51820/udp --permanent
-      firewall-cmd --reload
-
-- name: Add docker repo
-  ansible.builtin.command:
-    cmd: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
-- name: Install packages
-  ansible.builtin.dnf:
-    name:
-      - nmap
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
-    state: present
-
-- name: Start docker service
-  ansible.builtin.service:
-    name: docker
-    state: started
-    enabled: true
+- name: Docker Setup
+  ansible.builtin.import_tasks: docker.yaml

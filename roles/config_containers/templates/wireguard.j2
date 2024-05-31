@@ -6,7 +6,7 @@ services:
       - LANG=en
       # ⚠️ Required:
       # Change this to your host's public address
-      - WG_HOST={{ wireguard.hostname }}
+      - WG_HOST={{ ansible_host }}
 
       # Optional:
       - PASSWORD={{ wireguard.password }}

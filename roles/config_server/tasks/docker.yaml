@@ -1,0 +1,10 @@
+---
+- name: Install docker packages
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://get.docker.com | sh
+
+- name: Start docker service
+  ansible.builtin.systemd_service:
+    name: docker
+    state: started
+    enabled: true

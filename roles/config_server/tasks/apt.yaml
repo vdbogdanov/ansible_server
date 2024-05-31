@@ -1,0 +1,19 @@
+---
+- name: Update packages
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Upgrade packages
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+
+- name: Install program packages
+  ansible.builtin.apt:
+    name:
+      - nmap
+    state: present
+
+# - name: Reboot server
+#   ansible.builtin.reboot:
+#     reboot_timeout: 3600
