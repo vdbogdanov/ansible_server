@@ -4,7 +4,10 @@
     name: "*"
     state: latest
     update_cache: true
-  notify: Reboot server
+
+- name: Reboot server
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
 
 - name: Install packages
   ansible.builtin.dnf:
