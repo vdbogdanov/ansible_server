@@ -2,4 +2,5 @@ wireguard:
   password: 'password'
 
 confluence:
+  hostname: 'site.example.com'
   db_password: 'confluence'
