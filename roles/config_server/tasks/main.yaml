@@ -1,12 +1,12 @@
 ---
-- name: Update & upgrade packages
+- name: Import tasks from apt.yaml
   ansible.builtin.import_tasks: apt.yaml
 
-- name: SSH Setup
+- name: Import tasks from ssh.yaml
   ansible.builtin.import_tasks: ssh.yaml
 
-- name: UFW Setup
+- name: Import tasks from ufw.yaml
   ansible.builtin.import_tasks: ufw.yaml
 
-- name: Docker Setup
+- name: Import tasks from docker.yaml
   ansible.builtin.import_tasks: docker.yaml
