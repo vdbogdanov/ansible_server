@@ -1,0 +1,36 @@
+---
+- name: Create a directory for compose project
+  ansible.builtin.file:
+    path: "/opt/services/marzban"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Create a directory for project data config
+  ansible.builtin.file:
+    path: "/opt/services/marzban/data/config"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Template of compose file
+  ansible.builtin.copy:
+    src: "files/xray_config.json"
+    dest: "/opt/services/marzban/data/config/xray_config.json"
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Template of compose file
+  ansible.builtin.template:
+    src: "templates/marzban.j2"
+    dest: "/opt/services/marzban/compose.yaml"
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Run docker container
+  ansible.builtin.command:
+    cmd: "docker compose -f /opt/services/marzban/compose.yaml up -d"

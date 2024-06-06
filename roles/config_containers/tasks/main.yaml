@@ -1,7 +1,9 @@
 ---
-- name: Include run_container.yaml tasks
-  ansible.builtin.include_tasks: run_container.yaml
-  loop:
-    - proxy_manager
-    - wireguard
-    - confluence
+- name: Import tasks from marzban.yaml
+  ansible.builtin.import_tasks: marzban.yaml
+
+- name: Import tasks from proxy_manager.yaml
+  ansible.builtin.import_tasks: proxy_manager.yaml
+
+- name: Import tasks from confluence.yaml
+  ansible.builtin.import_tasks: confluence.yaml

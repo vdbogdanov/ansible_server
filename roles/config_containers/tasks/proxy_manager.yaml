@@ -1,7 +1,7 @@
 ---
 - name: Create a directory for compose project
   ansible.builtin.file:
-    path: "/opt/services/{{ item }}"
+    path: "/opt/services/proxy_manager"
     state: directory
     mode: '0755'
     owner: root
@@ -9,12 +9,12 @@
 
 - name: Template of compose file
   ansible.builtin.template:
-    src: "templates/{{ item }}.j2"
-    dest: "/opt/services/{{ item }}/compose.yaml"
+    src: "templates/proxy_manager.j2"
+    dest: "/opt/services/proxy_manager/compose.yaml"
     mode: '0755'
     owner: root
     group: root
 
 - name: Run docker container
   ansible.builtin.command:
-    cmd: "docker compose -f /opt/services/{{ item }}/compose.yaml up -d"
+    cmd: "docker compose -f /opt/services/proxy_manager/compose.yaml up -d"

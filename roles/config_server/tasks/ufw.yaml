@@ -19,11 +19,17 @@
     cmd: |
       ufw default deny incoming
       ufw default allow outgoing
-      ufw allow 22/tcp
-      ufw allow 80/tcp
-      ufw allow 81/tcp
-      ufw allow 443/tcp
-      ufw allow 51820/udp
+      ufw allow 22
+      ufw allow 80
+      ufw allow 81
+      ufw allow 443
+      ufw allow 8443
+      ufw allow 8080
+      ufw allow 8081
+      ufw allow 1080
+      ufw allow 2053
+      ufw allow 2083
+      ufw allow 19284
 
 - name: Enable ufw
   community.general.ufw:
